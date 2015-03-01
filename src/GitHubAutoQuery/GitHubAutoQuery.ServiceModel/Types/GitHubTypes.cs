@@ -63,4 +63,28 @@ namespace GitHubAutoQuery.ServiceModel.Types
         public string Url { get; set; }
         public string Login { get; set; }
     }
+
+    public class GithubByUser
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    public class GithubCommitResult
+    {
+        public string Sha { get; set; }
+        public GithubCommit Commit { get; set; }
+        public GithubUser Author { get; set; }
+        public GithubUser Committer { get; set; }
+    }
+
+    public class GithubCommit
+    {
+        public string Id { get; set; }
+        public string Message { get; set; }
+        public int Comment_Count { get; set; }
+        public GithubByUser Committer { get; set; }
+        public GithubByUser Author { get; set; }
+    }
 }

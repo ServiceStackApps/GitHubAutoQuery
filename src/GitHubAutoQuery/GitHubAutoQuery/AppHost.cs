@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Funq;
 using GitHubAutoQuery.ServiceInterface;
@@ -49,12 +50,10 @@ namespace GitHubAutoQuery
 
             this.Plugins.Add(new RazorFormat());
 
-            this.Plugins.Add(new AutoQueryFeature());
-
-            CreateDatabaseIfNotExists(container, AppSettings.GetString("GitHubUser"), AppSettings.GetString("GitHubRepo"));
+            InitDatabase(container, AppSettings.GetString("GitHubUser"), AppSettings.GetString("GitHubRepo"));
         }
 
-        private void CreateDatabaseIfNotExists(Container container, string githubUser, string githubRepo)
+        private void InitDatabase(Container container, string githubUser, string githubRepo)
         {
             if (githubUser.IsNullOrEmpty() || githubRepo.IsNullOrEmpty())
                 throw new ArgumentException("userName and repoName are required");
@@ -63,7 +62,11 @@ namespace GitHubAutoQuery
 
             container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(dbPath, SqliteDialect.Provider));
 
-            container.Register(c => new GithubGateway());
+            container.Register(c => new GithubGateway
+            {
+                Username = AppSettings.GetString("GitHubAuthUsername"),
+                Password = AppSettings.GetString("GitHubAuthPassword"),
+            });
 
             if (!File.Exists(dbPath) || AppSettings.Get("RecreateDatabase", false))
             {
@@ -71,14 +74,27 @@ namespace GitHubAutoQuery
                 {
                     db.DropAndCreateTable<GithubUser>();
                     db.DropAndCreateTable<GithubRepo>();
+                    db.DropAndCreateTable<GithubCommit>();
 
                     var gateway = container.Resolve<GithubGateway>();
 
                     var allRepos = gateway.GetAllUserAndOrgsReposFor(githubUser);
 
                     db.InsertAll(allRepos);
+
+                    var commitResponses = gateway.GetRepoCommits(githubUser, githubRepo)
+                        .Take(1000)
+                        .ToList();
+
+                    var commits = commitResponses.Select(x => {
+                        x.Commit.Id = x.Sha;
+                        return x.Commit;
+                    });
+                    db.InsertAll(commits);
                 }
             }
+
+            this.Plugins.Add(new AutoQueryFeature());
         }
     }
 }

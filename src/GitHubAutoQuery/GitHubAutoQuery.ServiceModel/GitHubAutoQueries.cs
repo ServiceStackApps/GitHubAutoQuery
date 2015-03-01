@@ -4,5 +4,8 @@ using ServiceStack;
 namespace GitHubAutoQuery.ServiceModel
 {
     [Route("/repos")]
-    public class QueryRepos : QueryBase<GithubRepo> {} 
+    public class QueryRepos : QueryBase<GithubRepo> {}
+
+    [Route("/commits")]
+    public class QueryRepoCommits : QueryBase<GithubCommit> { }
 }
