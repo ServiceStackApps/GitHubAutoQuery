@@ -10,10 +10,24 @@ namespace GitHubAutoQuery.ServiceInterface
         public const string GithubApiBaseUrl = "https://api.github.com/";
         public static string UserAgent = typeof(GithubGateway).Namespace.SplitOnFirst('.').First();
 
+        public string Username { get; set; }
+        public string Password { get; set; }
+
+        protected virtual void RequestFilter(HttpWebRequest req)
+        {
+            req.UserAgent = UserAgent;
+
+            if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+            {
+                req.Headers.Add("Authorization", "Basic " +
+                    Convert.ToBase64String(Encoding.ASCII.GetBytes(Username + ":" + Password)));
+            }
+        }
+
         public T GetJson<T>(string route, params object[] routeArgs)
         {
             return GithubApiBaseUrl.CombineWith(route.Fmt(routeArgs))
-                .GetJsonFromUrl(req => req.UserAgent = UserAgent)
+                .GetJsonFromUrl(RequestFilter)
                 .FromJson<T>();
         }
 
