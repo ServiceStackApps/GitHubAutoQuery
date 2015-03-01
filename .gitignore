@@ -181,3 +181,12 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+#Javascript Bower and NPM depedencies
+npm_components/
+wwwroot/
+bower_components/
+App_Data/
+src/TechStacks/TechStacks/webdeploy.zip
+.idea/
+*.txt
