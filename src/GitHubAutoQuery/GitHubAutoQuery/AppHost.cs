@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using Funq;
 using GitHubAutoQuery.ServiceInterface;
+using GitHubAutoQuery.ServiceModel;
 using GitHubAutoQuery.ServiceModel.Types;
 using ServiceStack;
 using ServiceStack.Configuration;
@@ -69,9 +70,13 @@ namespace GitHubAutoQuery
             {
                 using (var db = container.Resolve<IDbConnectionFactory>().OpenDbConnection())
                 {
-                    db.DropAndCreateTable<GithubUser>();
                     db.DropAndCreateTable<GithubRepo>();
                     db.DropAndCreateTable<GithubCommit>();
+                    db.DropAndCreateTable<GithubContent>();
+                    db.DropAndCreateTable<GithubContributor>();
+                    db.DropAndCreateTable<GithubSubscriber>();
+                    db.DropAndCreateTable<GithubComment>();
+                    db.DropAndCreateTable<GithubRelease>();
 
                     var gateway = container.Resolve<GithubGateway>();
 
@@ -88,10 +93,27 @@ namespace GitHubAutoQuery
                         return x.Commit;
                     });
                     db.InsertAll(commits);
+
+                    var repoContents = gateway.GetRepoContents(githubUser, githubRepo);
+                    db.InsertAll(repoContents);
+
+                    var repoContributors = gateway.GetRepoContributors(githubUser, githubRepo);
+                    db.InsertAll(repoContributors);
+
+                    var repoSubscribers = gateway.GetRepoSubscribers(githubUser, githubRepo);
+                    db.InsertAll(repoSubscribers);
+
+                    var repoComments = gateway.GetRepoComments(githubUser, githubRepo);
+                    db.InsertAll(repoComments);
+
+                    var repoReleases = gateway.GetRepoReleases(githubUser, githubRepo);
+                    db.InsertAll(repoReleases);
                 }
             }
 
-            this.Plugins.Add(new AutoQueryFeature());
+            this.Plugins.Add(new AutoQueryFeature {
+                LoadFromAssemblies = { typeof(QueryRepos).Assembly },
+            });
         }
     }
 }

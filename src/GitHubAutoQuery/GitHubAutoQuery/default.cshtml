@@ -26,26 +26,76 @@
     <!-- endbuild -->
     <title>React Template</title>
 </head>
-    <body>
-        <div class="navbar navbar-inverse" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">ReactJS App</a>
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ReactJS App</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="widewrapper">
+        <div class="container content">
+            <div id="autoquery-services">
+                <h2>GitHub AutoQuery Services
+                </h2>
+
+                <div class="row feature">
+                    <div class="col-sm-6">
+
+                        <h3>Repositories</h3>
+                        <p>
+                            <a href="/repos">/repos</a>
+                        </p>
+
+                        <h3>Commits</h3>
+                        <p>
+                            <a href="/commits">/commits</a>
+                        </p>
+
+                        <h3>Contents</h3>
+                        <p>
+                            <a href="/contents">/contents</a>
+                        </p>
+
+                        <h3>Contributors</h3>
+                        <p>
+                            <a href="/contributors">/contributors</a>
+                        </p>
+
+                        <h3>Subscribers</h3>
+                        <p>
+                            <a href="/subscribers">/subscribers</a>
+                        </p>
+
+                        <h3>Comments</h3>
+                        <p>
+                            <a href="/comments">/comments</a>
+                        </p>
+
+                        <h3>Releases</h3>
+                        <p>
+                            <a href="/releases">/releases</a>
+                        </p>
+
+                    </div>
+                    <div class="col-sm-6 info">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div id="demo"></div>
-        </div>
-        <!-- build:js js/app.jsx.js -->
-        <script type="text/jsx" src="js/components/hello.jsx"></script>
-        <script type="text/jsx" src="js/app.jsx"></script>
-        <!-- endbuild -->
-    </body>
+    </div>
+
+    <!-- build:js js/app.jsx.js -->
+    <script type="text/jsx" src="js/components/hello.jsx"></script>
+    <script type="text/jsx" src="js/app.jsx"></script>
+    <!-- endbuild -->
+</body>
 </html>
