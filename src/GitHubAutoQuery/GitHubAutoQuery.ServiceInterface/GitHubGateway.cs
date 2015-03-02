@@ -8,7 +8,7 @@ using ServiceStack;
 
 namespace GitHubAutoQuery.ServiceInterface
 {
-    public class GithubGateway
+    public partial class GithubGateway
     {
         public const string GithubApiBaseUrl = "https://api.github.com/";
         public static string UserAgent = typeof(GithubGateway).Namespace.SplitOnFirst('.').First();
@@ -56,37 +56,6 @@ namespace GitHubAutoQuery.ServiceInterface
                 }
 
             } while (results.Count > 0 && nextUrl != null);
-        }
-
-        public List<GithubOrg> GetUserOrgs(string githubUsername)
-        {
-            return GetJson<List<GithubOrg>>("users/{0}/orgs", githubUsername);
-        }
-
-        public List<GithubRepo> GetUserRepos(string githubUsername)
-        {
-            return GetJson<List<GithubRepo>>("users/{0}/repos", githubUsername);
-        }
-
-        public List<GithubRepo> GetOrgRepos(string githubOrgName)
-        {
-            return GetJson<List<GithubRepo>>("orgs/{0}/repos", githubOrgName);
-        }
-
-        public List<GithubRepo> GetAllUserAndOrgsReposFor(string githubUsername)
-        {
-            var map = new Dictionary<int, GithubRepo>();
-            GetUserRepos(githubUsername).ForEach(x => map[x.Id] = x);
-            GetUserOrgs(githubUsername).ForEach(org =>
-                GetOrgRepos(org.Login)
-                    .ForEach(repo => map[repo.Id] = repo));
-
-            return map.Values.ToList();
-        }
-
-        public IEnumerable<GithubCommitResult> GetRepoCommits(string githubUser, string githubRepo)
-        {
-            return StreamJsonCollection<GithubCommitResult>("repos/{0}/{1}/commits", githubUser, githubRepo);
         }
 
         public static Dictionary<string, string> ParseLinkUrls(string linkHeader)
