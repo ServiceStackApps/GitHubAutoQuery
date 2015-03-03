@@ -90,6 +90,7 @@ namespace GitHubAutoQuery
 
                     var commits = commitResponses.Select(x => {
                         x.Commit.Id = x.Sha;
+                        x.Commit.Date = x.Commit.Committer.Date;
                         return x.Commit;
                     });
                     db.InsertAll(commits);

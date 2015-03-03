@@ -87,6 +87,7 @@ namespace GitHubAutoQuery.ServiceModel.Types
     {
         public string Id { get; set; }
         public string Message { get; set; }
+        public DateTime Date { get; set; }
         public int Comment_Count { get; set; }
         public GithubByUser Committer { get; set; }
         public GithubByUser Author { get; set; }
