@@ -21,7 +21,7 @@ namespace GitHubAutoQuery
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("GitHubAutoQuery", typeof(MyServices).Assembly)
+            : base("GitHub AutoQuery", typeof(MyServices).Assembly)
         {
             var customSettings = new FileInfo(@"~/appsettings.txt".MapHostAbsolutePath());
             AppSettings = customSettings.Exists
@@ -91,6 +91,7 @@ namespace GitHubAutoQuery
                     var commits = commitResponses.Select(x => {
                         x.Commit.Id = x.Sha;
                         x.Commit.Date = x.Commit.Committer.Date;
+                        x.Commit.Name = x.Commit.Committer.Name;
                         return x.Commit;
                     });
                     db.InsertAll(commits);
@@ -112,8 +113,22 @@ namespace GitHubAutoQuery
                 }
             }
 
-            this.Plugins.Add(new AutoQueryFeature {
+            Plugins.Add(new AutoQueryFeature
+            {
                 LoadFromAssemblies = { typeof(QueryRepos).Assembly },
+                MaxLimit = 200,
+                AutoQueryViewerConfig =
+                {
+                    ServiceDescription = "Browse ServiceStack on GitHub",
+                    ServiceIconUrl = "/img/app/autoquery-75.png",
+                    BackgroundColor = "#253D48",
+                    TextColor = "#fff",
+                    LinkColor = "#ffff8d",
+                    BrandImageUrl = "/img/app/brand-inverted.png",
+                    BrandUrl = "https://github.com/ServiceStack/ServiceStack/",
+                    BackgroundImageUrl = "/img/app/bg.png",
+                    IsPublic = true,
+                }
             });
         }
     }
