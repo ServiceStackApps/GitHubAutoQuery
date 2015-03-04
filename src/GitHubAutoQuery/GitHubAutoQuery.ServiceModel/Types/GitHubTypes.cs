@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using ServiceStack.DataAnnotations;
 
 namespace GitHubAutoQuery.ServiceModel.Types
@@ -88,9 +89,15 @@ namespace GitHubAutoQuery.ServiceModel.Types
         public string Id { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
+        public string Name { get; set; }
         public int Comment_Count { get; set; }
         public GithubByUser Committer { get; set; }
         public GithubByUser Author { get; set; }
+
+        public bool? ShouldSerialize(string fieldName)
+        {
+            return fieldName != "Committer" && fieldName != "Author";
+        }
     }
 
     public class GithubContent
