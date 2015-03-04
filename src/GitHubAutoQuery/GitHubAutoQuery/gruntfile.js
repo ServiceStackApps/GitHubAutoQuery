@@ -92,6 +92,10 @@ module.exports = function (grunt) {
                     .pipe(newer(binDest))
                     .pipe(dest);
             },
+            'wwwroot-copy-appdata': function () {
+                return gulp.src('./App_Data/**/*')
+                    .pipe(gulp.dest(webRoot + 'App_Data/'));
+            },
             'wwwroot-copy-webconfig': function () {
                 return gulp.src('./web.config')
                     .pipe(newer(webRoot))
@@ -107,6 +111,7 @@ module.exports = function (grunt) {
                 return gulp.src([
                     webRoot + '**/*.*',
                     '!./wwwroot/bin/**/*.*', //Don't delete dlls
+                    '!./wwwroot/App_Data/**/*.*', //Don't delete App_Data
                     '!./wwwroot/**/*.asax', //Don't delete asax
                     '!./wwwroot/**/*.config', //Don't delete config
                     '!./wwwroot/appsettings.txt' //Don't delete deploy settings
@@ -124,14 +129,14 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(webRoot + 'lib/fonts/'));
             },
             'wwwroot-copy-images': function () {
-                return gulp.src('./img/*.*')
+                return gulp.src('./img/**/*')
                     .pipe(gulp.dest(webRoot + 'img/'));
             },
             'wwwroot-bundle': function () {
                 var assets = useref.assets({ searchPath: './' });
-                var checkIfJsx = function (file) {
+                var checkIfJsx = function(file) {
                     return file.relative.indexOf('.jsx.js') !== -1;
-                }
+                };
                 return gulp.src('./**/*.cshtml')
                     .pipe(assets)
                     .pipe(gulpif('*.jsx.js', react()))
@@ -184,6 +189,7 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-partials',
         'gulp:wwwroot-copy-fonts',
         'gulp:wwwroot-copy-images',
+        'gulp:wwwroot-copy-appdata',
         'gulp:wwwroot-bundle',
         'gulp:wwwroot-bundle-html'
     ]);
