@@ -99,6 +99,27 @@
     <Content Include="css\app.css" />
     <Content Include="gruntfile.js" />
     <Content Include="default.cshtml" />
+    <Content Include="img\app\autoquery-75.png" />
+    <Content Include="img\app\bg-group.jpg" />
+    <Content Include="img\app\bg.png" />
+    <Content Include="img\app\brand-inverted.png" />
+    <Content Include="img\app\brand.png" />
+    <Content Include="img\app\comments-75.png" />
+    <Content Include="img\app\comments-inverted-75.png" />
+    <Content Include="img\app\commits-75.png" />
+    <Content Include="img\app\commits-inverted-75.png" />
+    <Content Include="img\app\contents-75.png" />
+    <Content Include="img\app\contents-inverted-75.png" />
+    <Content Include="img\app\contributors-75.png" />
+    <Content Include="img\app\contributors-inverted-75.png" />
+    <Content Include="img\app\github-icons.png" />
+    <Content Include="img\app\github-logo.gif" />
+    <Content Include="img\app\releases-75.png" />
+    <Content Include="img\app\releases-inverted-75.png" />
+    <Content Include="img\app\repos-75.png" />
+    <Content Include="img\app\repos-inverted-75.png" />
+    <Content Include="img\app\subscribers-75.png" />
+    <Content Include="img\app\subscribers-inverted-75.png" />
     <Content Include="js\components\hello.jsx" />
     <Content Include="js\app.jsx" />
     <Content Include="Scripts\_references.js" />
@@ -116,7 +137,7 @@
     <Content Include="wwwroot_build\README.txt" />
     <Content Include="wwwroot_build\00-install-dependencies.bat" />
     <Content Include="wwwroot_build\deploy\appsettings.txt" />
-    <Content Include="wwwroot_build\publish\config.json" />
+    <None Include="Properties\PublishProfiles\WebDeploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -127,7 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHost.cs" />
@@ -148,8 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="img\" />
     <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot_build\publish\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -166,11 +189,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-  </Target>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
