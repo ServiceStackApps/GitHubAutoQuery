@@ -25,7 +25,7 @@ namespace GitHubAutoQuery
         {
             var customSettings = new FileInfo(@"~/appsettings.txt".MapHostAbsolutePath());
             AppSettings = customSettings.Exists
-                ? (IAppSettings)new TextFileSettings(customSettings.FullName)
+                ? (IAppSettings)new MultiAppSettings(new TextFileSettings(customSettings.FullName), AppSettings)
                 : new AppSettings();
         }
 
