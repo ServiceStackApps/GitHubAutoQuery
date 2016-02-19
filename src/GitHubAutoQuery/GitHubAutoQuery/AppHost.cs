@@ -7,6 +7,7 @@ using GitHubAutoQuery.ServiceInterface;
 using GitHubAutoQuery.ServiceModel;
 using GitHubAutoQuery.ServiceModel.Types;
 using ServiceStack;
+using ServiceStack.Admin;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -130,6 +131,7 @@ namespace GitHubAutoQuery
                     IsPublic = true,
                 }
             });
+            Plugins.Add(new AdminFeature());
         }
     }
 }
