@@ -114,10 +114,8 @@ namespace GitHubAutoQuery
                 }
             }
 
-            Plugins.Add(new AutoQueryFeature
+            Plugins.Add(new AutoQueryMetadataFeature
             {
-                LoadFromAssemblies = { typeof(QueryRepos).Assembly },
-                MaxLimit = 200,
                 AutoQueryViewerConfig =
                 {
                     ServiceDescription = "Browse ServiceStack on GitHub",
@@ -129,7 +127,14 @@ namespace GitHubAutoQuery
                     BrandUrl = "https://github.com/ServiceStack/ServiceStack/",
                     BackgroundImageUrl = "/img/app/bg.png",
                     IsPublic = true,
-                }
+                },
+                MaxLimit = 200,
+            });
+
+            Plugins.Add(new AutoQueryFeature
+            {
+                LoadFromAssemblies = { typeof(QueryRepos).Assembly },
+                MaxLimit = 200,
             });
             Plugins.Add(new AdminFeature());
         }

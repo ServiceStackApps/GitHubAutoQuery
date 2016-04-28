@@ -24,7 +24,7 @@ namespace GitHubAutoQuery.Tests
             .Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             appHost.Dispose();
