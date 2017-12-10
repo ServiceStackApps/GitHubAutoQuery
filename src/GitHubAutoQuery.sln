@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubAutoQuery", "GitHubAutoQuery\GitHubAutoQuery\GitHubAutoQuery.csproj", "{E78E217F-6804-460E-BFD1-BB3C588FD03B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubAutoQuery.ServiceModel", "GitHubAutoQuery\GitHubAutoQuery.ServiceModel\GitHubAutoQuery.ServiceModel.csproj", "{08BEF328-AB7D-48D3-800D-48ACC75C7914}"
@@ -34,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7CBC8FB8-64F4-4992-BF1D-4C0E3A6B35ED}
 	EndGlobalSection
 EndGlobal
