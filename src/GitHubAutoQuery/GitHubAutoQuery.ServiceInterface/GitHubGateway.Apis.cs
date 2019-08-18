@@ -11,19 +11,19 @@ namespace GitHubAutoQuery.ServiceInterface
             return GetJson<List<GithubOrg>>("users/{0}/orgs", githubUsername);
         }
 
-        public List<GithubRepo> GetUserRepos(string githubUsername)
+        public List<GithubRepository> GetUserRepos(string githubUsername)
         {
-            return GetJson<List<GithubRepo>>("users/{0}/repos", githubUsername);
+            return GetJson<List<GithubRepository>>("users/{0}/repos", githubUsername);
         }
 
-        public List<GithubRepo> GetOrgRepos(string githubOrgName)
+        public List<GithubRepository> GetOrgRepos(string githubOrgName)
         {
-            return GetJson<List<GithubRepo>>("orgs/{0}/repos", githubOrgName);
+            return GetJson<List<GithubRepository>>("orgs/{0}/repos", githubOrgName);
         }
 
-        public List<GithubRepo> GetAllUserAndOrgsReposFor(string githubUsername)
+        public List<GithubRepository> GetAllUserAndOrgsReposFor(string githubUsername)
         {
-            var map = new Dictionary<int, GithubRepo>();
+            var map = new Dictionary<int, GithubRepository>();
             GetUserRepos(githubUsername).ForEach(x => map[x.Id] = x);
             GetUserOrgs(githubUsername).ForEach(org =>
                 GetOrgRepos(org.Login)

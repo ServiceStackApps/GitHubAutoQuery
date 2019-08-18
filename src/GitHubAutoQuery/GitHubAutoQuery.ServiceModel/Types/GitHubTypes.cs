@@ -4,7 +4,8 @@ using ServiceStack.DataAnnotations;
 
 namespace GitHubAutoQuery.ServiceModel.Types
 {
-    public class GithubRepo
+    [Alias("GitHubRepo")]
+    public class GithubRepository
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,4 +1,4 @@
-﻿@inherits ViewPage
+﻿@using ServiceStack
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -48,7 +48,7 @@
                     GitHub AutoQuery Services
                 </h2>
                 <h3 style="color: #888">
-                    @AppSettings.GetString("GitHubUser") / @AppSettings.GetString("GitHubRepo")
+                    @HostContext.AppSettings.GetString("GitHubUser") / @HostContext.AppSettings.GetString("GitHubRepo")
                 </h3>
 
                 <div class="row feature">

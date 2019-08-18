@@ -8,7 +8,7 @@ namespace GitHubAutoQuery.ServiceModel
         DefaultSearchField = "Language", DefaultSearchType = "=", DefaultSearchText = "C#",
         IconUrl = "octicon:repo",
         DefaultFields = "Id,Name,Description:500,Homepage,Language,Watchers_Count,Stargazes_Count,Forks_Count,Open_Issues_Count,Size,Full_Name,Created_At,Updated_At,Has_Issues,Has_Downloads,Has_Wiki,Has_Pages,Fork,Private")]
-    public class QueryRepos : QueryDb<GithubRepo> {}
+    public class QueryRepos : QueryDb<GithubRepository> {}
 
     [Route("/commits")]
     [AutoQueryViewer(Title = "ServiceStack Commits", Description = "Browse latest 1000 commits",

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -37,6 +38,10 @@ namespace GitHubAutoQuery
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
+            //https://githubengineering.com/crypto-removal-notice/
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+
             //Config examples
             //this.Plugins.Add(new PostmanFeature());
             //this.Plugins.Add(new CorsFeature());
@@ -63,15 +68,15 @@ namespace GitHubAutoQuery
 
             container.Register(c => new GithubGateway
             {
-                Username = AppSettings.GetString("GitHubAuthUsername"),
-                Password = AppSettings.GetString("GitHubAuthPassword"),
+                //Username = AppSettings.GetString("GitHubAuthUsername"),
+                //Password = AppSettings.GetString("GitHubAuthPassword"),
             });
 
             if (!File.Exists(dbPath) || AppSettings.Get("RecreateDatabase", false))
             {
                 using (var db = container.Resolve<IDbConnectionFactory>().OpenDbConnection())
                 {
-                    db.DropAndCreateTable<GithubRepo>();
+                    db.DropAndCreateTable<GithubRepository>();
                     db.DropAndCreateTable<GithubCommit>();
                     db.DropAndCreateTable<GithubContent>();
                     db.DropAndCreateTable<GithubContributor>();
@@ -82,7 +87,6 @@ namespace GitHubAutoQuery
                     var gateway = container.Resolve<GithubGateway>();
 
                     var allRepos = gateway.GetAllUserAndOrgsReposFor(githubUser);
-
                     db.InsertAll(allRepos);
 
                     var commitResponses = gateway.GetRepoCommits(githubUser, githubRepo)
