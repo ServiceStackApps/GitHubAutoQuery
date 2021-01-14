@@ -4,7 +4,7 @@ using GitHubAutoQuery.ServiceModel.Types;
 
 namespace GitHubAutoQuery.ServiceInterface
 {
-    public partial class GithubGateway
+    public partial class GitHubGateway
     {       
         public List<GithubOrg> GetUserOrgs(string githubUsername)
         {
@@ -13,12 +13,12 @@ namespace GitHubAutoQuery.ServiceInterface
 
         public List<GithubRepository> GetUserRepos(string githubUsername)
         {
-            return GetJson<List<GithubRepository>>("users/{0}/repos", githubUsername);
+            return StreamJsonCollection<GithubRepository>("users/{0}/repos", githubUsername).ToList();
         }
 
         public List<GithubRepository> GetOrgRepos(string githubOrgName)
         {
-            return GetJson<List<GithubRepository>>("orgs/{0}/repos", githubOrgName);
+            return StreamJsonCollection<GithubRepository>("orgs/{0}/repos", githubOrgName).ToList();
         }
 
         public List<GithubRepository> GetAllUserAndOrgsReposFor(string githubUsername)

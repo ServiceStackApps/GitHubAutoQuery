@@ -13,6 +13,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
+using GitHubGateway = GitHubAutoQuery.ServiceInterface.GitHubGateway;
 
 namespace GitHubAutoQuery
 {
@@ -39,7 +40,7 @@ namespace GitHubAutoQuery
         public override void Configure(Container container)
         {
             //https://githubengineering.com/crypto-removal-notice/
-            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
 
             //Config examples
@@ -52,7 +53,7 @@ namespace GitHubAutoQuery
                 AddRedirectParamsToQueryString = true
             });
 
-            this.Plugins.Add(new RazorFormat());
+            this.Plugins.Add(new SharpPagesFeature());
 
             InitDatabase(container, AppSettings.GetString("GitHubUser"), AppSettings.GetString("GitHubRepo"));
         }
@@ -66,11 +67,7 @@ namespace GitHubAutoQuery
 
             container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(dbPath, SqliteDialect.Provider));
 
-            container.Register(c => new GithubGateway
-            {
-                //Username = AppSettings.GetString("GitHubAuthUsername"),
-                //Password = AppSettings.GetString("GitHubAuthPassword"),
-            });
+            container.Register(c => new GitHubGateway(Environment.GetEnvironmentVariable("GITHUB_TOKEN")));
 
             if (!File.Exists(dbPath) || AppSettings.Get("RecreateDatabase", false))
             {
@@ -84,7 +81,7 @@ namespace GitHubAutoQuery
                     db.DropAndCreateTable<GithubComment>();
                     db.DropAndCreateTable<GithubRelease>();
 
-                    var gateway = container.Resolve<GithubGateway>();
+                    var gateway = container.Resolve<GitHubGateway>();
 
                     var allRepos = gateway.GetAllUserAndOrgsReposFor(githubUser);
                     db.InsertAll(allRepos);

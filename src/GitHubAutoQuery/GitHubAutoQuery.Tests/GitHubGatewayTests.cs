@@ -12,7 +12,7 @@ namespace GitHubAutoQuery.Tests
         {
             var linkHeader = "<https://api.github.com/repositories/1339922/commits?page=101>; rel=\"next\", <https://api.github.com/repositories/1339922/commits?page=1>; rel=\"first\", <https://api.github.com/repositories/1339922/commits?page=99>; rel=\"prev\"";
 
-            var map = GithubGateway.ParseLinkUrls(linkHeader);
+            var map = GitHubGateway.ParseLinkUrls(linkHeader);
 
             Assert.That(map, Is.EquivalentTo(new Dictionary<string,string>
             {

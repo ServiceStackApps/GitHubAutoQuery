@@ -8,29 +8,37 @@ using ServiceStack;
 
 namespace GitHubAutoQuery.ServiceInterface
 {
-    public partial class GithubGateway
+    public partial class GitHubGateway
     {
         public const string GithubApiBaseUrl = "https://api.github.com/";
-        public static string UserAgent = typeof(GithubGateway).Namespace.SplitOnFirst('.').First();
+        public static string UserAgent = typeof(GitHubGateway).Namespace.SplitOnFirst('.').First();
 
-        public string Username { get; set; }
-        public string Password { get; set; }
+        /// <summary>
+        /// AccessTokenSecret
+        /// </summary>
+        public string AccessToken { get; set; }
 
-        protected virtual void RequestFilter(HttpWebRequest req)
+        /// <summary>
+        /// Intercept and override GitHub JSON API requests
+        /// </summary>
+        public Func<string, string> GetJsonFilter { get; set; }
+
+        public GitHubGateway() {}
+        public GitHubGateway(string accessToken) => AccessToken = accessToken;
+
+        public virtual void ApplyRequestFilters(HttpWebRequest req)
         {
-            req.UserAgent = UserAgent;
-
-            if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                req.Headers.Add("Authorization", "Basic " +
-                    Convert.ToBase64String(Encoding.ASCII.GetBytes(Username + ":" + Password)));
+                req.Headers["Authorization"] = "token " + AccessToken;
             }
+            req.UserAgent = UserAgent;
         }
 
         public T GetJson<T>(string route, params object[] routeArgs)
         {
             return GithubApiBaseUrl.CombineWith(route.Fmt(routeArgs))
-                .GetJsonFromUrl(RequestFilter)
+                .GetJsonFromUrl(ApplyRequestFilters)
                 .FromJson<T>();
         }
 
@@ -43,7 +51,7 @@ namespace GitHubAutoQuery.ServiceInterface
             {
                 results = nextUrl
                     .GetJsonFromUrl(
-                        RequestFilter,
+                        ApplyRequestFilters,
                         responseFilter: res => {
                             var links = ParseLinkUrls(res.Headers["Link"]);
                             links.TryGetValue("next", out nextUrl);
