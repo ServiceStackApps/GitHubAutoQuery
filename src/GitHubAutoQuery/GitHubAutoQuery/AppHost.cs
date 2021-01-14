@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,7 +11,6 @@ using ServiceStack.Admin;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.Razor;
 using GitHubGateway = GitHubAutoQuery.ServiceInterface.GitHubGateway;
 
 namespace GitHubAutoQuery
